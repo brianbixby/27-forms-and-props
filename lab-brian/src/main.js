@@ -99,11 +99,13 @@ class App extends React.Component {
 
   articleSelect(board) {
     if(!this.state.articleLookup[board]) {
+      console.log('1');
       this.setState({
         articleSelected: null,
         articleNameError: name,
       });
     } else {
+      console.log('2');
       superagent.get(this.state.articleLookup[board])
         .then( res => {
           console.log('res: ', res.body);
@@ -112,20 +114,21 @@ class App extends React.Component {
             articleNameError: null,
           });
           console.log(this.state.articleSelected);
-        });
+        })
+        .catch(console.error);
     }
   }
 
   render() {
     return (
       <section>
-        <h1> Reddit Form </h1>
+        <h1>Reddit Form</h1>
         <RedditForm articleSelect={this.articleSelect}/>
 
-        { this.state.articleNumberError ?
+        { this.state.articleNameError ? 
           <div>
-            <h2> Selected: {this.state.articleSelect} is not valid</h2>
-            <h3> Please make another request between 0 and 100 </h3>
+            <h2>Selected: {this.state.articleNameError} does not exist</h2>  
+            <h3>Please make another request </h3>
           </div> :
           <div>
             { this.state.articleSelected ?
@@ -136,14 +139,15 @@ class App extends React.Component {
                   {this.state.articleSelected.data.children.map((item, i) => {
                     return (
                       <li key={i}>
-                        <p>{item.data.author}</p>
-                        {/* <p>{item.data[1]}</p> */}
+                        <p><a href={`https://www.reddit.com${item.data.permalink}`} target='_blank'>{item.data.title}</a></p>
+                        <p><a href={`https://www.reddit.com${item.data.permalink}`} target='_blank'>{item.data.ups}</a></p>
                       </li>
                     );
                   })}
                 </ul>
-              </div>:
+              </div> :
               <div>
+  
               </div>
             }
           </div>
