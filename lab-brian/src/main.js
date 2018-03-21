@@ -15,6 +15,7 @@ class RedditForm extends React.Component {
     this.state = {
       formBoard: '',
       formLimit: '',
+      error: null,
     };
 
     this.handlesearchFormBoardChange = this.handlesearchFormBoardChange.bind(this);
@@ -34,10 +35,11 @@ class RedditForm extends React.Component {
     e.preventDefault();
     this.props.articleSelect(this.state.formBoard, this.state.formLimit);
   }
+  
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className= { this.props.error ? 'error' : 'noError' }>
         <input 
           name='limit'
           type='number'
@@ -125,7 +127,7 @@ class App extends React.Component {
     return (
       <section>
         <h1>Reddit Form</h1>
-        <RedditForm articleSelect={this.articleSelect}/>
+        <RedditForm articleSelect={this.articleSelect} error={this.state.articleNameError}/>
 
         { this.state.articleNameError ? 
           <div>

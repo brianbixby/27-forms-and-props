@@ -4,3 +4,7 @@ body {
 .error input {
   border: 1px solid red;
 }
+
+.noError input {
+  border: 1px solid #000;
+}

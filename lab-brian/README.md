@@ -39,6 +39,7 @@ You can totally contribute to this project if you want. Fork the repo, make some
 ## Credits
 
 Initial codebase created by Code Fellows.
+Read Me template created by Robert Reed https://github.com/RobertMcReed 
 
 ## License
 
