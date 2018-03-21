@@ -38,16 +38,19 @@ class RedditForm extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        {/* <input
-          type='text'
+        <input 
           name='limit'
+          type='number'
           value={this.state.formLimit}
-          onChange={this.handlesearchFormLimitChange} />  */}
+          onChange={this.handlesearchFormLimitChange} 
+        />
         <input
           type='text'
           name='board'
           value={this.state.formBoard}
           onChange={this.handlesearchFormBoardChange} />
+
+        <button type='submit'>submit </button>
       </form>
     );
   }
@@ -83,7 +86,7 @@ class App extends React.Component {
         .then( res => {
           console.log(res.body.data.children);
           let articleLookup = res.body.data.children.reduce((lookup, n) => {
-            lookup[n.data.display_name]= `https://www.reddit.com/r/${n.data.display_name}.json?limit=100` ;
+            lookup[n.data.display_name]= `https://www.reddit.com/r/${n.data.display_name}.json?limit=` ;
             return lookup;
           }, {});
           try {
@@ -97,16 +100,15 @@ class App extends React.Component {
     }
   }
 
-  articleSelect(board) {
+  articleSelect(board, limit) {
     if(!this.state.articleLookup[board]) {
-      console.log('1');
       this.setState({
         articleSelected: null,
-        articleNameError: name,
+        articleNameError: board,
       });
     } else {
-      console.log('2');
-      superagent.get(this.state.articleLookup[board])
+      limit = limit -1;
+      superagent.get(`${this.state.articleLookup[board]}${limit}`)
         .then( res => {
           console.log('res: ', res.body);
           this.setState({
